@@ -76,8 +76,7 @@
     </script>
 
     <script type="text/javascript">
-    var host = "ws://" + location.host + "/update";
-    alert(host);
+        var host = "ws://" + location.host + "/update";
         ws = new WebSocket(host);
         detener = false;
         lastTimeout = 3000;
