@@ -34,7 +34,7 @@
         <div class="busqueda">
             <h1>¿Qué pasa en Twitter?</h1>
             <input id="hashtag" class="form-control buscar" value="#tuHashTag" />
-            <button class="btn btn-success" id="iniciar">Muestrame</button>
+            <button class="btn btn-success" id="iniciar">Mostrame!</button>
         </div>
 
         <div class="info" style="display:none">
