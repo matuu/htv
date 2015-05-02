@@ -54,6 +54,5 @@ def update():
             wsock.send("Conexión abortada")
 
 
-if __name__ == '__main__':
-    server = WSGIServer(("0.0.0.0", 8080), app, handler_class=WebSocketHandler)
-    server.serve_forever()
+server = WSGIServer(("0.0.0.0", 8089), app, handler_class=WebSocketHandler)
+server.serve_forever()
