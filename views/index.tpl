@@ -16,18 +16,6 @@
 </head>
 
 <body id="page-top" data-spy="scroll" data-target=".navbar-custom">
-    <!--nav class="navbar navbar-default" role="navigation">
-        <div class="container">
-            <div class="navbar-header page-scroll">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
-                    <i class="fa fa-bars"></i>
-                </button>
-                <a class="navbar-brand" href="/">
-                    <i class="fa fa-play-circle"></i>  INICIO
-                </a>
-            </div>
-        </div>
-    </nav-->
 
     <div class="container">
 
@@ -79,7 +67,7 @@
         var host = "ws://" + location.host + "/update";
         ws = new WebSocket(host);
         detener = false;
-        lastTimeout = 3000;
+        lastTimeout = 0;
         (function($){
 
             $(document).ready(function() {
@@ -113,7 +101,7 @@
                 ws.onmessage = function(evt) {
                     try {
                         var arr = JSON.parse(evt.data);
-                        lastTimeout = (arr.length * 3000) + 3000;
+                        lastTimeout = (arr.length * 3000) ;
                         var ip;
                         for(ip=0; ip < arr.length; ip+=1) {
                              try {
@@ -133,7 +121,7 @@
                     setTimeout(function() {
                         if(detener) return;
                         ws.send($("#hashtag").val());
-                    }, lastTimeout);
+                    }, lastTimeout + 3000);
                 };
 
                 function publicador(json, timeout) {
