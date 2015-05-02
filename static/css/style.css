@@ -1,0 +1,91 @@
+ body {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 16px;
+    background: #badfcd;
+ }
+h1 {
+    font-size: 5em;
+    margin-bottom: 55px;
+}
+
+h2 {
+    font-size: 4em;
+}
+ h1, h2, h3 {
+    font-family: 'Pacifico', cursive;
+ }
+
+ h2 > span {
+    font-family: 'Josefin Sans', sans-serif;
+ }
+
+.buscar {
+    font-size: 4em;
+    padding: 25px;
+    height: 120px;
+    width: 70%;
+    display: inline-block;
+    margin: 5px 0;
+}
+
+#iniciar {
+    font-size:3em;
+    height: 120px;
+    vertical-align: bottom;
+    margin: 5px 0px;
+    font-family: 'Pacifico', cursive;
+}
+
+#detener {
+    position: fixed;
+    right: 5px;
+    top: 5px
+}
+
+
+.tweet {
+    padding: 5px 15px;
+    position: relative;
+    _border-bottom: 1px solid #999;
+    background: #eeeeee;
+    border-radius: 10px;
+    margin:  3px 5px;
+    font-size: 16px
+    font-wieght: 600;
+}
+
+.tweet:focus {
+    background: #aaa;
+}
+
+.tweet .text {
+    font-size:  130%;
+}
+
+.img-profile{
+    float:left;
+    margin.right: 20px;
+}
+
+.tweet .user {
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+}
+
+.tweet .user .meta {
+    float:right;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}
+
+.tweet .user .meta > span {
+    display: inline;
+}
+
+.tweet .user-text , .tweet .user-name{
+    margin-left: 60px;
+    padding-top: 5px;
+}
+
