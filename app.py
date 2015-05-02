@@ -3,6 +3,9 @@ import twitter
 from os import path
 from json import dumps
 from bottle import Bottle, request, abort, static_file, view
+from gevent.pywsgi import WSGIServer
+from geventwebsocket import WebSocketError
+from geventwebsocket.handler import WebSocketHandler
 
 from config.settings import CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN_KEY, ACCESS_TOKEN_SECRET
 
@@ -50,8 +53,7 @@ def update():
         except WebSocketError:
             wsock.send("Conexión abortada")
 
-from gevent.pywsgi import WSGIServer
-from geventwebsocket import WebSocketError
-from geventwebsocket.handler import WebSocketHandler
-server = WSGIServer(("0.0.0.0", 8080), app, handler_class=WebSocketHandler)
-server.serve_forever()
+
+if __name__ == '__main__':
+    server = WSGIServer(("0.0.0.0", 8080), app, handler_class=WebSocketHandler)
+    server.serve_forever()

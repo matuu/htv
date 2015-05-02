@@ -28,6 +28,12 @@ h2 {
     margin: 5px 0;
 }
 
+@media(max-width: 991px) {
+    .buscar {
+        width: 100% !important;
+    }
+}
+
 #iniciar {
     font-size:3em;
     height: 120px;

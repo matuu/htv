@@ -149,9 +149,9 @@
                     $temp.find(".user-name").html(str);
                     $temp.find(".img-profile").attr("src", json["user"]["profile_image_url"]);
                     $temp.find(".text").html(json["text"].linkify_tweet());
-                    $temp.find(".fecha").html(new Date(json["created_at"]).toLocaleDateString());
+                    $temp.find(".fecha").html(new Date(json["created_at"]).toLocaleDateString() + " " + new Date(json["created_at"]).toLocaleTimeString());
                     if(json["retweet_count"] != undefined)
-                        $temp.find(".retweet").html("RT: " + json["retweet_count"]);
+                        $temp.find(".retweet").html("<strong>RT: " + json["retweet_count"]+ "</strong>");
                     $temp.hide();
                     //console.log("Time ->" + timeout);
                     $("#tweets").prepend($temp);
