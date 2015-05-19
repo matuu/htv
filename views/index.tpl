@@ -9,7 +9,7 @@
 
     <title>Hashtag Viewers</title>
     <!-- Bootstrap Core CSS -->
-    <link href='http://fonts.googleapis.com/css?family=Josefin+Sans|Pacifico' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Magra:700|Josefin+Sans' rel='stylesheet' type='text/css'>
     <link href="../static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="../static/css/style.css" rel="stylesheet">
 
@@ -21,8 +21,8 @@
 
         <div class="busqueda">
             <h1>¿Qué pasa en Twitter?</h1>
-            <input id="hashtag" class="form-control buscar" value="#tuHashTag" />
-            <button class="btn btn-success" id="iniciar">Mostrame!</button>
+            <input id="hashtag" class="form-control buscar" value="#tuHashTag" placeholder="#tuHashTag" />
+            <button class="btn btn-info" id="iniciar">Mostrame!</button>
         </div>
 
         <div class="info" style="display:none">
@@ -77,12 +77,13 @@
 
                 $("#iniciar").click(function(e){
                     e.preventDefault();
+                    if($("#hashtag").val()=='') return;
                     $("#tweets").empty();
                     ws.send($("#hashtag").val());
                     $(this).prop('disabled', true);
                     $("#hashtag").prop('disabled', true);
                     $("#detener").prop('disabled', false);
-                    $("#ht-select").html("Participa con el hashtag <span>" + $("#hashtag").val() + "</span>");
+                    $("#ht-select").html("Participa con <span>" + $("#hashtag").val() + "</span>");
                     detener = false;
                     $(".busqueda").slideUp();
                     $(".info").fadeIn();

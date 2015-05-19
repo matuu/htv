@@ -1,31 +1,39 @@
  body {
     font-family: 'Josefin Sans', sans-serif;
-    font-size: 16px;
-    background: #badfcd;
+    font-size: 20px;
+    background-image: url(/static/img/bg.png);
+    background-size:   cover;                      /* <------ */
+    background-repeat: no-repeat;
  }
 h1 {
     font-size: 5em;
-    margin-bottom: 55px;
+    margin-bottom: 60px;
+    color:  #97deff !important;
+    font-family: 'Magra', sans-serif;
+    text-shadow: 1px 1px 1px #000;
 }
 
 h2 {
-    font-size: 4em;
+    font-size: 3em;
 }
  h1, h2, h3 {
-    font-family: 'Pacifico', cursive;
+    color: #fff;
+    /*font-family: 'Josefin Sans', sans-serif;*/
  }
 
  h2 > span {
-    font-family: 'Josefin Sans', sans-serif;
+    font-family: 'Magra', sans-serif;
+    font-weight: 600;
+    text-shadow: 1px 1px 1px #000;
  }
 
 .buscar {
-    font-size: 4em;
-    padding: 25px;
+    font-size: 3em;
+    padding: 28px 25px 16px;
     height: 120px;
     width: 70%;
     display: inline-block;
-    margin: 5px 0;
+    margin: 4px 0;
 }
 
 @media(max-width: 991px) {
@@ -39,7 +47,8 @@ h2 {
     height: 120px;
     vertical-align: bottom;
     margin: 5px 0px;
-    font-family: 'Pacifico', cursive;
+    font-family: 'Magra', cursive;
+    text-shadow: 1px 1px 1px #000;
 }
 
 #detener {
@@ -55,9 +64,8 @@ h2 {
     _border-bottom: 1px solid #999;
     background: #eeeeee;
     border-radius: 10px;
-    margin:  3px 5px;
-    font-size: 16px
-    font-wieght: 600;
+    margin:  5px;
+    font-size: 18px;
 }
 
 .tweet:focus {
@@ -66,11 +74,13 @@ h2 {
 
 .tweet .text {
     font-size:  130%;
+    /*font-weight: 600;*/
 }
 
 .img-profile{
-    float:left;
-    margin.right: 20px;
+    float: left;
+    margin-right: 15px;
+    min-width: 75px;
 }
 
 .tweet .user {
@@ -90,8 +100,13 @@ h2 {
     display: inline;
 }
 
-.tweet .user-text , .tweet .user-name{
+.tweet .user-text {
     margin-left: 60px;
-    padding-top: 5px;
+    padding-top: 10px;
+    font-size: 24px;
 }
 
+.tweet .user-name{
+    margin-left: 60px;
+    font-size: 22px;
+}
