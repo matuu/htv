@@ -59,7 +59,7 @@
     <script type="text/javascript">
             String.prototype.linkify_tweet = function() {
                 var tweet = this.replace(/(^|\s)@(\w+)/g, "$1@<a href='http://www.twitter.com/$2'>$2</a>");
-           return tweet.replace(/(^|\s)#(\w+)/g, "$1#<a href='http://search.twitter.com/search?q=%23$2'>$2</a>");
+           return tweet.replace(/(^|\s)#(\w+)/g, "$1#<a href='https://twitter.com/search?q=%23$2'>$2</a>");
          };
     </script>
 
