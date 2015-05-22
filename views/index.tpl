@@ -98,17 +98,23 @@
                     $(".info").fadeOut();
                     $(".busqueda").slideDown();
                 });
-
+		
+		$("#hashtag").keyup(function(e) {
+		    console.log(e.keyCode);
+		    if(e.keyCode == 13){
+			$("#iniciar").click();
+		    }	
+		});
                 ws.onmessage = function(evt) {
                     try {
                         var arr = JSON.parse(evt.data);
-                        lastTimeout = (arr.length * 3000) ;
+                        lastTimeout = (arr.length * 5000) ;
                         var ip;
                         for(ip=0; ip < arr.length; ip+=1) {
                              try {
                                 var j = JSON.parse(arr[ip]);
                                 //console.log(j);
-                                publicador(j, 3000 * ip);
+                                publicador(j, 5000 * ip);
 
                             } catch (e){
                                 console.log(e);
@@ -122,7 +128,7 @@
                     setTimeout(function() {
                         if(detener) return;
                         ws.send($("#hashtag").val());
-                    }, lastTimeout + 3000);
+                    }, lastTimeout + 1000);
                 };
 
                 function publicador(json, timeout) {
