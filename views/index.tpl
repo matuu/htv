@@ -23,6 +23,12 @@
             <h1>¿Qué pasa en Twitter?</h1>
             <input id="hashtag" class="form-control buscar" value="#tuHashTag" placeholder="#tuHashTag" />
             <button class="btn btn-info" id="iniciar">Mostrame!</button>
+            <div class="config">
+                <div> 
+                    <label>Intervalo entre mensajes:</label>
+                    <input class="form-control" type="number" name="freq" id="freq-id" min="5" max="15" value="5">
+                </div>
+            </div>
         </div>
 
         <div class="info" style="display:none">
@@ -49,7 +55,7 @@
                 </div>
             </div>
             <div class="text"></div>
-
+            <div class="url-media"></div>
         </div>
 
 
@@ -68,6 +74,7 @@
         ws = new WebSocket(host);
         detener = false;
         lastTimeout = 0;
+        var freq = 1000;
         (function($){
 
             $(document).ready(function() {
@@ -78,6 +85,12 @@
                 $("#iniciar").click(function(e){
                     e.preventDefault();
                     if($("#hashtag").val()=='') return;
+                    try{
+                        freq = freq * parseInt($("#freq-id").val());
+                    }catch(e) {
+                        freq = 5000;
+                    }
+                    //alert("Tiempo de espera: " + (freq/1000) + " seg");
                     $("#tweets").empty();
                     ws.send($("#hashtag").val());
                     $(this).prop('disabled', true);
@@ -97,74 +110,71 @@
                     $("#iniciar").prop('disabled', false);
                     $(".info").fadeOut();
                     $(".busqueda").slideDown();
+                    freq = 1000;
                 });
 		
-		$("#hashtag").keyup(function(e) {
-		    console.log(e.keyCode);
-		    if(e.keyCode == 13){
-			$("#iniciar").click();
-		    }	
-		});
+                $("#hashtag").keyup(function(e) {
+                    console.log(e.keyCode);
+                    if(e.keyCode == 13){
+                    $("#iniciar").click();
+                    }	
+                });
+                
                 ws.onmessage = function(evt) {
                     try {
                         var arr = JSON.parse(evt.data);
-                        lastTimeout = (arr.length * 5000) ;
+                        lastTimeout = (arr.length * freq) ;
                         var ip;
                         for(ip=0; ip < arr.length; ip+=1) {
                              try {
                                 var j = JSON.parse(arr[ip]);
-                                //console.log(j);
-                                publicador(j, 5000 * ip);
+                                console.log(j);
+                                publicador(j, freq * ip);
 
                             } catch (e){
                                 console.log(e);
                             }
                        }
-
-
                     } catch(e) {
                         console.log(e);
                     }
                     setTimeout(function() {
                         if(detener) return;
                         ws.send($("#hashtag").val());
-                    }, lastTimeout + 1000);
+                    }, lastTimeout );
                 };
 
                 function publicador(json, timeout) {
-                if (detener) return;
-                setTimeout(function() {
-                    var $temp = $("#template").clone();
-                    $temp.attr("id", "");
-                    $temp.find(".user-text").html("<strong>" + json["user"]["name"]+ "</strong>");
-                    var str =  "@" +  json["user"]["screen_name"] ;
-                    if (json["user"]["location"] != undefined) {
-                        str+= " (" + json["user"]["location"] + ")";
-                    }
-                    $temp.find(".user-name").html(str);
-                    $temp.find(".img-profile").attr("src", json["user"]["profile_image_url"]);
-                    $temp.find(".text").html(json["text"].linkify_tweet());
-                    $temp.find(".fecha").html(new Date(json["created_at"]).toLocaleDateString() + " " + new Date(json["created_at"]).toLocaleTimeString());
-                    if(json["retweet_count"] != undefined)
-                        $temp.find(".retweet").html("<strong>RT: " + json["retweet_count"]+ "</strong>");
-                    $temp.hide();
-                    //console.log("Time ->" + timeout);
-                    $("#tweets").prepend($temp);
-                    $temp.fadeIn(500);
-                }, timeout);
-
-
-            }
-
+                    if (detener) return;
+                    setTimeout(function() {
+                        var $temp = $("#template").clone();
+                        $temp.attr("id", "");
+                        $temp.find(".user-text").html("<strong>" + json["user"]["name"]+ "</strong>");
+                        var str =  "@" +  json["user"]["screen_name"] ;
+                        if (json["user"]["location"] != undefined) {
+                            str+= " (" + json["user"]["location"] + ")";
+                        }
+                        $temp.find(".user-name").html(str);
+                        $temp.find(".img-profile").attr("src", json["user"]["profile_image_url"]);
+                        $temp.find(".text").html(json["text"].linkify_tweet());
+                        $temp.find(".fecha").html(new Date(json["created_at"]).toLocaleDateString() + " " + new Date(json["created_at"]).toLocaleTimeString());
+                        if(json["retweet_count"] != undefined)
+                            $temp.find(".retweet").html("<strong>RT: " + json["retweet_count"]+ "</strong>");
+                        try{
+                            if(json["media"][0]["media_url"] != undefined)
+                                $temp.find(".url-media").html("<img class='img-responsive img-rounded' src='" + json["media"][0]["media_url"] + "' />");
+                        } catch (e){}         
+                        $temp.hide();
+                        //console.log("Time ->" + timeout);
+                        $("#tweets").prepend($temp);
+                        $temp.fadeIn(500);
+                    }, timeout);
+                }
 
             }); // end- document.ready
-
-
 
         })(jQuery);
     </script>
 
-
 </body>
-
 </html>

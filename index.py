@@ -43,7 +43,7 @@ def update():
             # así no dejo tweets afuera.
             if last_query != query:
                 last_id = 1
-            tweets = api.GetSearch(query, result_type='recent', since_id=last_id, count=5)
+            tweets = api.GetSearch(query, since_id=last_id, count=15)
             last_query = query
             if tweets:
                 last_id = tweets[0].GetId()
