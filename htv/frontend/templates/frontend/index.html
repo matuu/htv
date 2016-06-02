@@ -1,0 +1,113 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Visualizá la activdad en Twitter sobre determinado hashtag">
+    <meta name="author" content="Ing. Matias Varela">
+
+    <title>Hashtag Viewers</title>
+    <!-- Bootstrap Core CSS -->
+    <link href='http://fonts.googleapis.com/css?family=Magra:700|Josefin+Sans' rel='stylesheet' type='text/css'>
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/animate.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+</head>
+
+<body id="page-top" data-spy="scroll" data-target=".navbar-custom">
+
+    <div class="container">
+    {% block content %}
+        <div class="busqueda">
+            <h1 class="animated zoomInDown">¿Qué pasa en Twitter?</h1>
+            <div class="animated zoomInUp">
+                <input id="hashtag" class="form-control buscar" value="#tuHashTag" placeholder="#tuHashTag" />
+                <button class="btn btn-info" id="iniciar">Mostrame!</button>
+                <div class="config">
+                    <div>
+                        <label>Intervalo entre mensajes:</label>
+                        <input class="form-control" type="number" name="freq" id="freq-id" min="5" max="15" value="5">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info" style="display:none">
+            <h2 id="ht-select"></h2>
+            <button class="btn btn-danger" id="detener">Detener</button>
+
+            <div class="row" id="tweets">
+
+            </div>
+         </div>
+        {% endblock %}
+    </div>
+
+
+        <div class="tweet col-md-12" id="template" style="display:none">
+
+            <div class="user">
+                <img class="img-responsive img-thumbnail img-profile"  src=""/>
+                <div class="user-text"></div>
+                <div class="user-name"></div>
+                <div class="meta">
+                    <span class="fecha"></span>
+                    <span class="retweet"></span>
+                    <span class="fav"></span>
+                </div>
+            </div>
+            <div class="text"></div>
+            <div class="url-media"></div>
+        </div>
+
+
+    <!-- Core JavaScript Files -->
+    <script src="{% static 'js/jquery-1.10.2.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    {% block js %}
+    <script type="text/javascript">
+
+        function openPopup(url)
+        {
+            var popup = window.open(url, "popup", "fullscreen");
+            if (popup.outerWidth < screen.availWidth || popup.outerHeight < screen.availHeight)
+            {
+                popup.moveTo(0,0);
+                popup.resizeTo(screen.availWidth, screen.availHeight);
+            }
+        }
+    </script>
+
+    <script type="text/javascript">
+        (function($){
+
+            $(document).ready(function() {
+
+                $("#iniciar").click(function(e){
+                    e.preventDefault();
+
+                    if($("#hashtag").val()=='') return;
+                    var query = $("#hashtag").val().replace("#", "");
+                    var freq = 1;
+                    try{
+                        freq = freq * parseInt($("#freq-id").val());
+                    }catch(e) {
+                        freq = 5;
+                    }
+                    openPopup('search/' + query + "/" + freq);
+                });
+		
+                $("#hashtag").keyup(function(e) {
+                    if(e.keyCode == 13){
+                        $("#iniciar").click();
+                    }	
+                });
+
+            }); // end- document.ready
+        })(jQuery);
+    </script>
+    {% endblock %}
+</body>
+</html>

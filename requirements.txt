@@ -1,10 +1,4 @@
-argparse==1.2.1
-bottle==0.12.8
-gevent==1.0.1
-gevent-websocket==0.9.3
-greenlet==0.4.5
-oauthlib==0.7.2
-python-twitter==2.2
-requests==2.6.2
-requests-oauthlib==0.4.2
-wsgiref==0.1.2
+django==1.9.6
+python-twitter==3.1
+channels==0.14.0
+asgi_redis==0.12.0
