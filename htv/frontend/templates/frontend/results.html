@@ -4,9 +4,9 @@
 {% block content %}
 
 <div class="info">
-    <h2 id="ht-select" class="animated rollIn">Participa con #<strong>{{ key }}</strong></h2>
+    <h2 id="ht-select" class="animated slideInUp">Participá con #<strong>{{ key }}</strong></h2>
     <div class="row" id="tweets">
-
+        <div class="animated fadeIn" style="background:url({% static 'img/ring-alt.svg' %}) no-repeat center center;width:100%;height:200px;margin-top:20%"></div>
     </div>
  </div>
 <div class="tweet col-md-12 animated bounceInDown" id="template" style="display:none">
@@ -41,20 +41,42 @@
     // When we're using HTTPS, use WSS too.
         var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
         var ws = new WebSocket(ws_scheme + '://' + window.location.host + "/" + window.location.pathname);
+        var amount_tweet = 10,  // cantidad de tweet por vez
+                count = 0,  // contador de tweet vistos por vez
+                flag_loading = 0;
 
         ws.onopen = function(e) {
             console.log('Connected!');
-            setTimeout(function(){
-                ws.send(JSON.stringify({'query': 'start'}));
-            }, 1000);
+            setTimeout(solicitarTweet, 1000);
         };
         ws.onclose = function(e) { console.log('Disconnected!'); };
+
         ws.onmessage = function(evt){
             var arr = JSON.parse(evt.data);
+            if (arr.retry) {
+                console.log("aún no, reintentar");
+                setTimeout(solicitarTweet, 1000);
+                return;
+            }
             publicador(arr);
+            count += 1;
+            //console.log(count + " tweet mostrado.");
+            if (count == amount_tweet) {
+                setTimeout(solicitarTweet, 1000);
+            }
         };
-        function publicador(json) {
 
+        function solicitarTweet() {
+            count = 0;
+            ws.send(JSON.stringify({'count': amount_tweet}));
+            console.log("Enviando solicitud de " + amount_tweet);
+        }
+
+        function publicador(json) {
+            if(flag_loading == 0) {
+                $("#tweets>div").fadeOut();
+                flag_loading = 1;
+            }
             var $temp = $("#template").clone();
             $temp.attr("id", "");
             $temp.attr("style", "");
@@ -75,19 +97,12 @@
             } catch (e){
                 console.error(e);
             }
-            //$temp.hide();
             $("#tweets").prepend($temp);
-
         }
 
         (function($){
-
             $(document).ready(function() {
-
-                $("#tweets").empty();
-
             }); // end- document.ready
-
         })(jQuery);
     </script>
 {% endblock %}
