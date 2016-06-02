@@ -1,5 +1,6 @@
 import json
 import logging
+from random import randint
 from time import sleep
 
 from channels import Group
@@ -17,49 +18,56 @@ logger = logging.getLogger('htv')
 def ws_connect(message):
     config = message['path'].strip('/').split('/')
     label = config[0]
-    Group('htv-' + label).add(message.reply_channel)
+    group = 'htv-' + label + str(randint(100,999))
+    Group(group).add(message.reply_channel)
+    message.channel_session['groupname'] = group
+    # creo un Topic
     topic = Topic(query=label)
     topic.frequency = config[1] if len(config) > 1 else 5
     topic.save()
-    message.channel_session['query'] = label
+    # almaceno en sesión datos que necesitaré luego
+    message.channel_session['last_id'] = 1
     message.channel_session['topic_pk'] = topic.pk
+    message.channel_session["first"] = True
     logger.debug("Conectado. Nuevo topic: %s" % label)
 
 
 @channel_session
 def ws_receive(message):
-    topic = message.channel_session["topic_pk"]
-    if not topic:
+    if "topic_pk" not in message.channel_session.keys():
+        Group(message.channel_session['groupname']).send({'text': json.dumps({'retry': True})})
         return
-    topic = Topic.objects.get(pk=topic)
+    topic = Topic.objects.get(pk=message.channel_session["topic_pk"])
     tw = TwitterAPI()
-    last_id = 1
-    count = 100
-    tweets = tw.search(topic, last_id, count)
-    logger.debug("Primera búsqueda, %s tweets" % len(tweets))
-    count = 20
-    next_tweet = Tweet()
-    while True:
-        for tweet in tweets:
-            last_id = tweet.twitter_id
-            logger.debug("Enviando tweet ID: %s" % (tweet.twitter_id))
-            # mandar tweets
-            Group('htv-' + topic.query).send({'text': json.dumps(tweet.as_json())})
-            tweet.show()
-            next_tweet = tweet
-            logger.debug("Durmiendo %s segundos" % topic.frequency)
-            sleep(topic.frequency)
-        next_tweet = Tweet.objects.exclude(pk=next_tweet.pk).filter(topic=topic).order_by('last_shown', 'created_at')[:1].get()
-        if next_tweet:
-            logger.debug("Repitiendo tweet ID %s" % next_tweet.twitter_id)
-            Group('htv-' + topic.query).send({'text': json.dumps(next_tweet.as_json())})
-            next_tweet.show()
-        tweets = tw.search(topic, last_id, count)
-        logger.debug("Búscando nuevamente. %s tweets nuevos" % len(tweets))
+    data = json.loads(message['text'])
+    # búscamos nuevos tweets
+    if message.channel_session["first"]:
+        logger.debug("Primera búsqueda, 100 tweets")
+        tweets = tw.search(topic, message.channel_session['last_id'], 100)
+        message.channel_session['last_id'] = tweets[len(tweets)-1].twitter_id if tweets else 1
+        message.channel_session["first"] = False
+    else:
+        tweets = tw.search(topic, message.channel_session['last_id'], data['count'])
+    for tweet in tweets[:10]:
+        if tweet.twitter_id > message.channel_session['last_id']:
+            message.channel_session['last_id'] = tweet.twitter_id
+        logger.debug("Enviando tweet ID: %s" % (tweet.twitter_id))
+        # mandar tweets
         sleep(topic.frequency)
+        Group(message.channel_session['groupname']).send({'text': json.dumps(tweet.as_json())})
+        tweet.show()
+        logger.debug("Durmiendo %s segundos" % topic.frequency)
+
+    if len(tweets) < data['count']:  # si no hay tweet nuevos, repetir pero buscando los mostrados hace más tiempo
+        diff = data['count'] - len(tweets)
+        for tweet_ret in Tweet.objects.filter(topic=topic).order_by('last_shown', 'created_at')[:diff]:
+            logger.debug("Repitiendo tweet ID %s" % tweet_ret.twitter_id)
+            sleep(topic.frequency)
+            Group(message.channel_session['groupname']).send({'text': json.dumps(tweet_ret.as_json())})
+            tweet_ret.show()
 
 
 @channel_session
 def ws_disconnect(message):
     logger.debug("Se desconectó el cliente.")
-    Group('htv' + message.channel_session['query']).discard(message.reply_channel)
+    Group(message.channel_session['groupname']).discard(message.reply_channel)
