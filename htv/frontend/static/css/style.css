@@ -1,20 +1,20 @@
  body {
     font-family: 'Josefin Sans', sans-serif;
     font-size: 20px;
-    background-image: url(/static/img/bg.png);
-    background-size:   cover;                      /* <------ */
-    background-repeat: no-repeat;
+    background: url(../img/Hackatec-pag.jpg) no-repeat top left / 100% auto;
  }
+
 h1 {
     font-size: 5em;
     margin-bottom: 60px;
-    color:  #97deff !important;
-    font-family: 'Magra', sans-serif;
-    text-shadow: 1px 1px 1px #000;
 }
-
 h2 {
     font-size: 3em;
+}
+h1, h2 {
+    color: #83B6D1 !important;
+    font-family: 'Magra', sans-serif;
+    text-shadow: 1px 1px 1px #000;
 }
  h1, h2, h3 {
     color: #fff;
@@ -25,6 +25,15 @@ h2 {
     font-family: 'Magra', sans-serif;
     font-weight: 600;
     text-shadow: 1px 1px 1px #000;
+ }
+
+ .btn-info {
+    color: #65187E;
+    background-color: #83B6D1 !important;
+    border-color: #46b8da;
+}
+ .btn-info:hover, .btn-info:active, .btn-info:focus {
+     color: #7C1582;
  }
 
 .buscar {
@@ -49,6 +58,7 @@ h2 {
     padding-right: 20px;
     padding-top: 8px;
     text-align: right;
+    color: #fff;
 }
 
 .config input {
@@ -84,7 +94,7 @@ h2 {
     padding: 5px 15px;
     position: relative;
     _border-bottom: 1px solid #999;
-    background: #eeeeee;
+    background: #eeeeee url(../img/tweet-bg.jpg) no-repeat center right;
     border-radius: 10px;
     margin:  5px;
     font-size: 18px;
