@@ -1,0 +1,144 @@
+ body {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 20px;
+    background-image: url(/static/img/bg.png);
+    background-size:   cover;                      /* <------ */
+    background-repeat: no-repeat;
+ }
+h1 {
+    font-size: 5em;
+    margin-bottom: 60px;
+    color:  #97deff !important;
+    font-family: 'Magra', sans-serif;
+    text-shadow: 1px 1px 1px #000;
+}
+
+h2 {
+    font-size: 3em;
+}
+ h1, h2, h3 {
+    color: #fff;
+    /*font-family: 'Josefin Sans', sans-serif;*/
+ }
+
+ h2 > span {
+    font-family: 'Magra', sans-serif;
+    font-weight: 600;
+    text-shadow: 1px 1px 1px #000;
+ }
+
+.buscar {
+    font-size: 3em;
+    padding: 28px 25px 16px;
+    height: 120px;
+    width: 70%;
+    display: inline-block;
+    margin: 4px 0;
+}
+
+.config {
+    font-size: 1.5em;
+    width: 100%; 
+    display: inline-block;
+    padding-top: 30px;
+}
+
+.config label {
+    width: 50%;
+    float:left;
+    padding-right: 20px;
+    padding-top: 8px;
+    text-align: right;
+}
+
+.config input {
+    display: inline-block;
+    font-size: 50px;
+    height: 60px;
+    width: 10%;
+}
+
+@media(max-width: 991px) {
+    .buscar {
+        width: 100% !important;
+    }
+}
+
+#iniciar {
+    font-size:3em;
+    height: 120px;
+    vertical-align: bottom;
+    margin: 5px 0px;
+    font-family: 'Magra', cursive;
+    text-shadow: 1px 1px 1px #000;
+}
+
+#detener {
+    position: fixed;
+    right: 5px;
+    top: 5px
+}
+
+
+.tweet {
+    padding: 5px 15px;
+    position: relative;
+    _border-bottom: 1px solid #999;
+    background: #eeeeee;
+    border-radius: 10px;
+    margin:  5px;
+    font-size: 18px;
+}
+
+.tweet:focus {
+    background: #aaa;
+}
+
+.tweet .text {
+    font-size:  130%;
+    /*font-weight: 600;*/
+}
+
+.img-profile{
+    float: left;
+    margin-right: 15px;
+    min-width: 75px;
+}
+
+.tweet .user {
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+}
+
+.tweet .user .meta {
+    float:right;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}
+
+.tweet .user .meta > span {
+    display: inline;
+}
+
+.tweet .user-text {
+    margin-left: 60px;
+    padding-top: 10px;
+    font-size: 24px;
+}
+
+.tweet .user-name{
+    margin-left: 60px;
+    font-size: 22px;
+}
+
+.tweet .url-media {
+    width: 100%;
+    position: relative;
+}
+.tweet .url-media > img {
+    margin: 0 auto;
+    max-width: 100%;
+    max-height: 400px;
+}

@@ -1,0 +1,4 @@
+django==1.9.6
+python-twitter==3.1
+channels==0.14.0
+asgi_redis==0.12.0
