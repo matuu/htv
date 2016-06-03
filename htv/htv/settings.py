@@ -132,8 +132,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
-MEDIA_ROOT = normpath(join(SITE_ROOT, '../media'))
-STATIC_ROOT = normpath(join(SITE_ROOT, '../collected_static'))
+MEDIA_ROOT = normpath(join(SITE_ROOT, 'media'))
+STATIC_ROOT = normpath(join(SITE_ROOT, 'collected_static'))
 
 CHANNEL_LAYERS = {
     "default": {
