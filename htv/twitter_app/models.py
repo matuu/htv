@@ -12,7 +12,6 @@ class Topic(models.Model):
     frequency = models.PositiveSmallIntegerField(default=5)
 
 
-
 class Tweet(models.Model):
     twitter_id = models.IntegerField()
     topic = models.ForeignKey(Topic)

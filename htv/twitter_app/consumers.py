@@ -17,6 +17,8 @@ logger = logging.getLogger('htv')
 @channel_session
 def ws_connect(message):
     config = message['path'].strip('/').split('/')
+    if config[0] == 'search':
+        del config[0]
     label = config[0]
     group = 'htv-' + label + str(randint(100,999))
     Group(group).add(message.reply_channel)
