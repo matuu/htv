@@ -13,7 +13,7 @@ class Topic(models.Model):
 
 
 class Tweet(models.Model):
-    twitter_id = models.IntegerField()
+    twitter_id = models.BigIntegerField()
     topic = models.ForeignKey(Topic)
     user_name = models.CharField(max_length=255)
     user_screenname = models.CharField(max_length=255)

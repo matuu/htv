@@ -44,8 +44,8 @@ def ws_receive(message):
     data = json.loads(message['text'])
     # búscamos nuevos tweets
     if message.channel_session["first"]:
-        logger.debug("Primera búsqueda, 100 tweets")
-        tweets = tw.search(topic, message.channel_session['last_id'], 100)
+        logger.debug("Primera búsqueda, 30 tweets")
+        tweets = tw.search(topic, message.channel_session['last_id'], 30)
         message.channel_session['last_id'] = tweets[len(tweets)-1].twitter_id if tweets else 1
         message.channel_session["first"] = False
     else:
