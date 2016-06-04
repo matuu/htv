@@ -55,20 +55,20 @@ def ws_receive(message):
             message.channel_session['last_id'] = tweet.twitter_id
         logger.debug("Enviando tweet ID: %s" % (tweet.twitter_id))
         # mandar tweets
-        sleep(topic.frequency)
         Group(message.channel_session['groupname']).send({'text': json.dumps(tweet.as_json())})
         tweet.show()
         logger.debug("Durmiendo %s segundos" % topic.frequency)
+        sleep(topic.frequency)
 
     if len(tweets) < data['count']:  # si no hay tweet nuevos, repetir pero buscando los mostrados hace más tiempo
         diff = data['count'] - len(tweets)
         for tweet_ret in Tweet.objects.filter(topic=topic).order_by('last_shown', 'created_at')[:diff]:
             logger.debug("Repitiendo tweet ID %s" % tweet_ret.twitter_id)
-            sleep(topic.frequency)
             Group(message.channel_session['groupname']).send({'text': json.dumps(tweet_ret.as_json())})
             tweet_ret.show()
+            sleep(topic.frequency)
 
-
+:ws_connect
 @channel_session
 def ws_disconnect(message):
     logger.debug("Se desconectó el cliente.")

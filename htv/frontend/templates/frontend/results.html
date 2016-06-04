@@ -1,12 +1,12 @@
 {% extends "frontend/index.html" %}
 {% load static %}
-
+{% block body_class %}{% endblock %}
 {% block content %}
 
 <div class="info">
     <h2 id="ht-select" class="animated slideInUp">Participá con #<strong>{{ key }}</strong></h2>
     <div class="row" id="tweets">
-        <div class="animated fadeIn" style=";width:100%;height:200px;margin-top:20%;text-align: center;">
+        <div class="animated fadeIn" style=";width:100%;height:200px;margin-top:15%;text-align: center;">
             <img src="{% static 'img/ring-alt.svg' %}" />
         </div>
     </div>
@@ -49,7 +49,7 @@
 
         ws.onopen = function(e) {
             console.log('Connected!');
-            setTimeout(solicitarTweet, 1000);
+            setTimeout(solicitarTweet, 1500);
         };
         ws.onclose = function(e) { console.log('Disconnected!'); };
 
@@ -57,14 +57,14 @@
             var arr = JSON.parse(evt.data);
             if (arr.retry) {
                 console.log("aún no, reintentar");
-                setTimeout(solicitarTweet, 3000);
+                setTimeout(solicitarTweet, 2000);
                 return;
             }
             publicador(arr);
             count += 1;
             //console.log(count + " tweet mostrado.");
             if (count == amount_tweet) {
-                setTimeout(solicitarTweet, 1000);
+                setTimeout(solicitarTweet, 5000);
             }
         };
 
