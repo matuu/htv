@@ -16,6 +16,8 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
+from django.views.decorators.cache import cache_page
+
 from frontend.views import index, results
 
 
@@ -23,5 +25,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', index),
     url(r'^search/(?P<key>\w+)/$', results, name="searching"),
-    url(r'^search/(?P<key>\w+)/(?P<freq>\d+)/$', results, name="searching"),
+    url(r'^search/(?P<key>\w+)/(?P<freq>\d+)/$', cache_page(0)(results), name="searching"),
 ]

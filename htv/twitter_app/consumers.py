@@ -62,7 +62,7 @@ def ws_receive(message):
 
     if len(tweets) < data['count']:  # si no hay tweet nuevos, repetir pero buscando los mostrados hace más tiempo
         diff = data['count'] - len(tweets)
-        for tweet_ret in Tweet.objects.filter(topic=topic).order_by('last_shown', 'created_at')[:diff]:
+        for tweet_ret in Tweet.objects.filter(topic=topic).order_by('last_shown')[:diff]:
             logger.debug("Repitiendo tweet ID %s" % tweet_ret.twitter_id)
             Group(message.channel_session['groupname']).send({'text': json.dumps(tweet_ret.as_json())})
             tweet_ret.show()

@@ -20,9 +20,9 @@ class TwitterAPI(object):
 
     def search(self, topic, since_id=None, count=10):
         if since_id:
-            tweets = self.api.GetSearch(topic.query, since_id=since_id, count=count)
+            tweets = self.api.GetSearch(topic.query, since_id=since_id, count=count, result_type='recent')
         else:
-            tweets = self.api.GetSearch(topic.query, count=count)
+            tweets = self.api.GetSearch(topic.query, count=count, result_type='recent')
         tweets_insert = []
         for tweet in tweets:
             aux = Tweet.from_twitter(tweet, topic)

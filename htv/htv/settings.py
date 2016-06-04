@@ -145,6 +145,13 @@ CHANNEL_LAYERS = {
     },
 }
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+        'TIMEOUT': 0,
+    }
+}
+
 try:
     from .settings_local import *  # noqa
 except:
