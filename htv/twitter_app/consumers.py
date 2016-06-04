@@ -68,7 +68,7 @@ def ws_receive(message):
             tweet_ret.show()
             sleep(topic.frequency)
 
-:ws_connect
+
 @channel_session
 def ws_disconnect(message):
     logger.debug("Se desconectó el cliente.")
