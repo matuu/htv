@@ -18,7 +18,7 @@ from django.contrib import admin
 
 from django.views.decorators.cache import cache_page
 
-from frontend.views import index, results
+from frontend.views import index, results, json_results
 
 
 urlpatterns = [
@@ -26,4 +26,5 @@ urlpatterns = [
     url(r'^$', index),
     url(r'^search/(?P<key>\w+)/$', results, name="searching"),
     url(r'^search/(?P<key>\w+)/(?P<freq>\d+)/$', cache_page(0)(results), name="searching"),
+    url(r'^json/(?P<key>\w+)/$', json_results, name="json_response"),
 ]

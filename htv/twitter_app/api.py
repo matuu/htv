@@ -18,7 +18,7 @@ class TwitterAPI(object):
         self.api = twitter.Api(settings.CONSUMER_KEY, settings.CONSUMER_SECRET,
                                settings.ACCESS_TOKEN_KEY, settings.ACCESS_TOKEN_SECRET)
 
-    def search(self, topic, since_id=None, count=10):
+    def search(self, topic, since_id=0, count=15, save=True):
         if since_id:
             tweets = self.api.GetSearch(topic.query, since_id=since_id, count=count, result_type='recent')
         else:
@@ -29,6 +29,7 @@ class TwitterAPI(object):
             if aux:
                 tweets_insert.append(aux)
         # guardamos todos los tweets
-        Tweet.objects.bulk_create(tweets_insert, batch_size=30)
+        if save:
+            Tweet.objects.bulk_create(tweets_insert, batch_size=30)
         tweets_insert.sort(key=lambda x: x.created_at)
         return tweets_insert
