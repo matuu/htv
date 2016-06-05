@@ -1,0 +1,80 @@
+
+from os.path import abspath, basename, dirname, join, normpath
+from os import environ
+from sys import path
+
+########## PATH CONFIGURATION
+# Absolute filesystem path to the Django project directory:
+DJANGO_ROOT = dirname(dirname(abspath(__file__)))
+
+# Absolute filesystem path to the top-level project folder:
+SITE_ROOT = dirname(DJANGO_ROOT)
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = '0u12rt+mdfeb03*ds39eidyk9%@s@&d7***5vx#l-5-lk=(*r58'
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = False
+
+CONSUMER_KEY = 'XnG5i9xJHnEzGnYUPS2lpl3lO'
+CONSUMER_SECRET = 'v3ipqYkn1XIJ4aTrX3VdzCAAYckBTM0eamyTRFYdT8fd6mdpIg'
+ACCESS_TOKEN_KEY = '75374532-7IOfPg694Tq2rGVovrBz7FKT1GDAFJlkrX28fMkuX'
+ACCESS_TOKEN_SECRET = 'vQ7fPebbZq14NzXm28ws0SGK8nnUHUogLoTO7AclnNI1f'
+
+# Database
+# https://docs.djangoproject.com/en/1.9/ref/settings/#databases
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'htv',
+        'USER': 'htv',
+        'PASSWORD': 'zxcvbnmzxcvbnm',
+        'HOST': "127.0.0.1",
+        'PORT': 5432
+    }
+}
+
+ALLOWED_HOSTS = ["htv.matuu.com.ar", '127.0.0.1', ]
+
+ADMINS = [
+    ('Matias Varela', 'matu.varela@gmail.com'),
+]
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'root': {
+        'level': 'WARNING',
+        'handlers': ['sentry'],
+    },
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': normpath(join(SITE_ROOT, '../logs/django-debug.log')),
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'include_html': True,
+        },
+        'sentry': {
+            'level': 'ERROR',
+            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
+            'tags': {'custom-tag': 'x'},
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'django_mail': {
+            'handlers': ['mail_admins'],
+            'propagate': True,
+            'level': 'ERROR',
+        },
+    },
+}
