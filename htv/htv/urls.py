@@ -26,5 +26,5 @@ urlpatterns = [
     url(r'^$', index),
     url(r'^search/(?P<key>\w+)/$', results, name="searching"),
     url(r'^search/(?P<key>\w+)/(?P<freq>\d+)/$', cache_page(0)(results), name="searching"),
-    url(r'^json/(?P<key>\w+)/$', json_results, name="json_response"),
+    url(r'^json/(?P<key>\w+)/$', cache_page(0)(json_results), name="json_response"),
 ]
